@@ -1,4 +1,3 @@
-<script>
         const allPages = document.querySelectorAll('.page');
         const allDropdowns = document.querySelectorAll('.dropdown');
         const header = document.querySelector('.header');
@@ -102,5 +101,3 @@
                 });
             }
         });
-
-    </script>
