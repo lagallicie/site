@@ -451,3 +451,72 @@
 .dropdown.active {
   display: block;
 }
+/* --- Dropdown & navigation fixes --- */
+
+/* Compatibilité si HTML contient encore .nav-center */
+.nav-center, .nav {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+/* Positionnement du nav-item et du dropdown */
+.nav-item {
+  position: relative;
+  display: inline-block;
+}
+
+/* Bouton déclencheur */
+.nav-dropdown-trigger {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  padding: 6px 10px;
+}
+
+/* Visuel focus accessible */
+.nav-dropdown-trigger:focus {
+  outline: 2px solid rgba(255,255,255,0.35);
+  outline-offset: 3px;
+}
+
+/* Dropdown caché par défaut */
+.dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: #0a0a0a;
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 6px 0;
+  min-width: 220px;
+  z-index: 1200; /* plus haut que le header */
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+
+/* Liens internes */
+.dropdown a {
+  display: block;
+  padding: 8px 16px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown a:hover,
+.dropdown a:focus {
+  background: rgba(255,255,255,0.03);
+}
+
+/* Quand JS active le dropdown */
+.dropdown.active {
+  display: block;
+}
+
+/* S'assurer que le header garde la priorité visuelle */
+.header {
+  z-index: 2000;
+}
