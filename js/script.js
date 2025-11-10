@@ -1,103 +1,125 @@
-        const allPages = document.querySelectorAll('.page');
-        const allDropdowns = document.querySelectorAll('.dropdown');
-        const header = document.querySelector('.header');
+// js/script.js — version robuste (sans balises <script>)
+// Remplace entièrement le fichier js/script.js par ce contenu.
 
-        /**
-         * Met à jour la variable CSS --header-height
-         * avec la hauteur réelle du header.
-         */
-        function updatePagePadding() {
-            const headerHeight = header.offsetHeight;
-            document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
-        }
+(function () {
+  'use strict';
 
-        /**
-         * Affiche la page correspondant à l'ancre (hash) dans l'URL.
-         */
-        function router() {
-            let pageId = window.location.hash.substring(1);
-            
-            // Si pas d'ancre, ou ancre invalide, afficher 'home'
-            if (!pageId || !document.getElementById(pageId)) {
-                pageId = 'home';
-            }
+  // Références DOM initialisées après DOMContentLoaded
+  let allPages = [];
+  let allDropdowns = [];
+  let header = null;
 
-            // Cacher toutes les pages
-            allPages.forEach(page => page.classList.remove('active'));
-            
-            // Afficher la page cible
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-            
-            // Fermer tous les dropdowns
-            allDropdowns.forEach(dropdown => dropdown.classList.remove('active'));
-            
-            // Remonter en haut de page
-            window.scrollTo(0, 0);
-        }
+  function safeGetById(id) {
+    if (!id) return null;
+    try { return document.getElementById(id); } catch (e) { return null; }
+  }
 
-        /**
-         * Ouvre ou ferme un menu déroulant.
-         */
-        function toggleDropdown(dropdownId) {
-            const dropdown = document.getElementById(dropdownId);
-            const isActive = dropdown.classList.contains('active');
-            
-            // Fermer tous les dropdowns
-            allDropdowns.forEach(d => d.classList.remove('active'));
-            
-            // Ouvrir le dropdown cible s'il était fermé
-            if (!isActive) {
-                dropdown.classList.add('active');
-            }
-        }
+  /**
+   * Met à jour --header-height si header existe.
+   */
+  function updatePagePadding() {
+    if (!header) return;
+    const headerHeight = header.offsetHeight || 0;
+    document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+  }
 
-        // --- ÉCOUTEURS D'ÉVÉNEMENTS ---
+  /**
+   * Affiche la page correspondant à la hash (ou 'home' si invalide).
+   */
+  function router() {
+    let pageId = window.location.hash.substring(1);
+    if (!pageId || !document.getElementById(pageId)) pageId = 'home';
 
-        // Au chargement de la page
-        document.addEventListener('DOMContentLoaded', () => {
-            router(); // Afficher la bonne page
-            updatePagePadding(); // Définir le padding initial
-        });
+    allPages.forEach(page => page.classList.remove('active'));
+    const target = document.getElementById(pageId);
+    if (target) target.classList.add('active');
 
-        // Quand l'ancre dans l'URL change (clic sur un lien)
-        window.addEventListener('hashchange', router);
+    // fermer dropdowns
+    allDropdowns.forEach(d => d.classList.remove('active'));
 
-       // NOUVEAU : Au chargement COMPLET de la fenêtre (plus lent, plus fiable)
-       window.addEventListener('load', () => {
-            router();
-            updatePagePadding(); 
-});
+    window.scrollTo(0, 0);
+  }
 
-        // Utiliser ResizeObserver pour détecter les changements de taille du header
-        // (plus fiable que l'événement 'resize')
-        if ('ResizeObserver' in window) {
-            new ResizeObserver(() => {
-                updatePagePadding();
-            }).observe(header);
-        } else {
-            // Fallback pour les anciens navigateurs
-            window.addEventListener('resize', updatePagePadding);
-        }
+  /**
+   * Toggle d'un dropdown.
+   * Accepte soit un id (string) soit un élément HTMLElement.
+   */
+  function toggleDropdown(target) {
+    let dropdownEl = null;
 
-        // Fermer les dropdowns en cliquant n'importe où
-        document.addEventListener('click', function(event) {
-            const isClickInsideDropdown = event.target.closest('.nav-item');
-            
-            if (!isClickInsideDropdown) {
-                allDropdowns.forEach(dropdown => {
-                    dropdown.classList.remove('active');
-                });
-            }
-        });
+    if (typeof target === 'string') dropdownEl = safeGetById(target);
+    else if (target instanceof HTMLElement) dropdownEl = target;
+    else if (target && typeof target === 'object' && target.id) dropdownEl = safeGetById(target.id);
 
-        // Fermer les dropdowns avec la touche "Echap"
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                allDropdowns.forEach(dropdown => {
-                    dropdown.classList.remove('active');
-                });
-            }
-        });
+    // si pas d'élément, on ferme tous et on retourne
+    if (!dropdownEl) {
+      allDropdowns.forEach(d => d.classList.remove('active'));
+      return;
+    }
+
+    const isActive = dropdownEl.classList.contains('active');
+
+    // fermer tous
+    allDropdowns.forEach(d => d.classList.remove('active'));
+
+    // ouvrir si était fermé
+    if (!isActive) dropdownEl.classList.add('active');
+  }
+
+  // Exposer globalement (utile si tu as des onclick inline dans le HTML)
+  window.toggleDropdown = toggleDropdown;
+
+  // Initialisation DOM
+  document.addEventListener('DOMContentLoaded', () => {
+    allPages = Array.from(document.querySelectorAll('.page'));
+    allDropdowns = Array.from(document.querySelectorAll('.dropdown'));
+    header = document.querySelector('.header');
+
+    // Si HTML utilise nav-center au lieu de nav, on peut normaliser (optionnel)
+    // const nav = document.querySelector('.nav') || document.querySelector('.nav-center');
+
+    router();
+    updatePagePadding();
+
+    // Attacher listeners aux triggers (préférable aux onclick inline)
+    document.querySelectorAll('.nav-dropdown-trigger').forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const navItem = button.closest('.nav-item');
+        if (!navItem) return;
+        const dropdown = navItem.querySelector('.dropdown');
+        if (!dropdown) return;
+        // appeler la fonction avec l'élément
+        toggleDropdown(dropdown);
+      });
+    });
+
+    // Fermer les dropdowns en cliquant à l'extérieur
+    document.addEventListener('click', function (event) {
+      const isInside = !!event.target.closest('.nav-item');
+      if (!isInside) allDropdowns.forEach(d => d.classList.remove('active'));
+    });
+
+    // Fermer avec Echap
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') allDropdowns.forEach(d => d.classList.remove('active'));
+    });
+  });
+
+  window.addEventListener('hashchange', router);
+  window.addEventListener('load', () => {
+    // Recalcule après que tout ait chargé
+    updatePagePadding();
+    router();
+  });
+
+  // Resize observer pour header, installé après DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    if ('ResizeObserver' in window && header) {
+      new ResizeObserver(updatePagePadding).observe(header);
+    } else {
+      window.addEventListener('resize', updatePagePadding);
+    }
+  });
+
+})();
