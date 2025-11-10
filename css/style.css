@@ -165,7 +165,7 @@ body {
     font-family: 'Bebas Neue', sans-serif;
 }
 
-/* ASSO PAGE */
+/* ASSO PAGE (Utilisé par index.html) */
 .asso-content {
     max-width: 1000px;
     margin: 0 auto;
@@ -208,7 +208,7 @@ body {
     font-weight: 300;
 }
 
-/* CONTACT FORM */
+/* CONTACT FORM (Utilisé par index.html) */
 .contact-content {
     max-width: 800px;
     margin: 0 auto;
@@ -277,7 +277,7 @@ body {
     outline-offset: 2px;
 }
 
-/* Footer sémantique */
+/* FOOTER (Utilisé par les deux pages) */
 footer {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     margin-top: 80px;
@@ -332,7 +332,7 @@ footer {
     fill: #fff;
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE (Utilisé par les deux pages) */
 @media (max-width: 1024px) {
     .asso-grid {
         grid-template-columns: 1fr;
@@ -395,6 +395,7 @@ footer {
         padding: 30px 20px 20px;
     }
 }
+
 /*
 ============================================================
    STYLES POUR LA PAGE FEST'ETE (festete-updated.html)
