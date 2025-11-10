@@ -867,7 +867,7 @@ footer {
 .dropdown {
   display: none; /* Caché par défaut, géré par JS/CSS:hover */
   position: absolute;
-  top: calc(100% + 8px); /* Laisse un espace de 8px */
+  top: 100%; 
   left: 0;
   background: #0a0a0a;
   border: 1px solid rgba(255,255,255,0.06);
