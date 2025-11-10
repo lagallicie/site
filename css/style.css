@@ -71,7 +71,7 @@ body {
 
 /* --- MODIFICATION 2 : PAGE --- */
 .page {
-    display: none;
+    /* SUPPRIMEZ la ligne `display: none;` ici ! */
     /* La hauteur minimale est maintenant l'écran moins la hauteur du header */
     min-height: calc(100vh - var(--header-height));
     /* Le padding gère le décalage pour ne pas masquer le contenu */
