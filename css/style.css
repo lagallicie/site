@@ -520,3 +520,25 @@
 .header {
   z-index: 2000;
 }
+/* --- Fix rapide dropdown : hover + priorité d'empilement --- */
+.nav-item {
+  position: relative;
+  display: inline-block;
+}
+
+/* affichage au survol (fallback utile) */
+.nav-item:hover .dropdown,
+.nav-item:focus-within .dropdown {
+  display: block;
+}
+
+/* priorité d'empilement : doit être plus haut que le header si nécessaire */
+.dropdown {
+  z-index: 99999; /* assez haut pour être sûr */
+  pointer-events: auto;
+}
+
+/* Si tu veux conserver l'affichage via JS (classe .active) */
+.dropdown.active {
+  display: block;
+}
