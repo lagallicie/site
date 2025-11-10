@@ -903,3 +903,24 @@ footer {
 .dropdown.active {
   display: block !important; /* Mise à jour: Ajout de !important pour assurer la priorité */
 }
+/*
+ * Correction pour les pages à cause du header en position: fixed.
+ * La variable --header-height est calculée par le script.js
+ */
+.page {
+    /* Empêche le contenu de se masquer derrière le header fixe */
+    padding-top: var(--header-height); 
+    /* S'assurer que chaque page remplisse au moins le reste de l'écran */
+    min-height: calc(100vh - var(--header-height));
+    /* Réinitialise le décalage potentiel des éléments ancrés */
+    scroll-margin-top: var(--header-height); 
+}
+
+/* Assurez-vous que le header est bien fixé et au-dessus de tout */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
