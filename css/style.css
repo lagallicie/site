@@ -1,772 +1,781 @@
 :root {
-    /* Variable pour la hauteur du header, gérée par JS */
-    --header-height: 150px;
+    /* Variable pour la hauteur du header, gérée par JS */
+    --header-height: 150px;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #000;
-    color: #fff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #000;
+    color: #fff;
 }
 
+/* --- MODIFICATION 1 : HEADER --- */
+/* z-index très élevé et pointer-events: auto pour garantir que le menu reçoit les clics */
 .header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 25px 35px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 9999;
-    background: rgba(0, 0, 0, 0.95);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 25px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99999; /* Augmenté pour la priorité */
+    pointer-events: auto; /* Reçoit les événements de souris */
+    background: rgba(0, 0, 0, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 .logo {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    text-decoration: none; /* Ajouté car c'est un <a> */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none; /* Ajouté car c'est un <a> */
 }
 
 .logo img {
-    height: 100px;
-    width: auto;
+    height: 100px;
+    width: auto;
 }
 
 .nav {
-    display: flex;
-    gap: 40px;
-    align-items: center;
+    display: flex;
+    gap: 40px;
+    align-items: center;
 }
 
 .nav a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 23px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 400;
-    transition: opacity 0.3s;
-    cursor: pointer;
-    font-family: 'Bebas Neue', sans-serif;
+    color: #fff;
+    text-decoration: none;
+    font-size: 23px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
+    transition: opacity 0.3s;
+    cursor: pointer;
+    font-family: 'Bebas Neue', sans-serif;
 }
 
 .nav a:hover, .nav a:focus {
-    opacity: 0.6;
-    outline: 2px solid rgba(255, 255, 255, 0.5); /* Ajout pour accessibilité */
-    outline-offset: 4px;
+    opacity: 0.6;
+    outline: 2px solid rgba(255, 255, 255, 0.5); /* Ajout pour accessibilité */
+    outline-offset: 4px;
 }
 
+/* --- MODIFICATION 2 : PAGE --- */
 .page {
-    display: none;
-    min-height: 100vh;
-    /* Le padding est maintenant géré par la variable CSS */
-    padding-top: var(--header-height);
-    padding-bottom: 120px;
+    display: none;
+    /* La hauteur minimale est maintenant l'écran moins la hauteur du header */
+    min-height: calc(100vh - var(--header-height));
+    /* Le padding gère le décalage pour ne pas masquer le contenu */
+    padding-top: var(--header-height);
+    padding-bottom: 120px;
+    /* Fixe le décalage pour les liens d'ancre (ex: classement participation) */
+    scroll-margin-top: var(--header-height);
+    /* Empêche le contenu de la page d'intercepter les clics au-dessus du header */
+    pointer-events: none;
 }
 
 .page.active {
-    display: block;
+    display: block;
 }
 
 /* HOME PAGE - LA GALLICIE */
 .home-hero {
-    height: calc(100vh - var(--header-height)); /* Utilise aussi la variable */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
+    height: calc(100vh - var(--header-height)); /* Utilise aussi la variable */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
 }
 
 .home-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background:
-        repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 2px,
-            rgba(255, 255, 255, 0.03) 2px,
-            rgba(255, 255, 255, 0.03) 4px
-        );
-    pointer-events: none;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.03) 2px,
+            rgba(255, 255, 255, 0.03) 4px
+        );
+    pointer-events: none;
 }
 
 .home-hero h1 {
-    font-size: 140px;
-    font-weight: 400;
-    letter-spacing: 20px;
-    margin-bottom: 60px;
-    font-family: 'Black Ops One', sans-serif;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-    overflow-wrap: break-word; /* Empêche le débordement horizontal */
-    max-width: 100vw; /* Sécurité */
+    font-size: 140px;
+    font-weight: 400;
+    letter-spacing: 20px;
+    margin-bottom: 60px;
+    font-family: 'Black Ops One', sans-serif;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    overflow-wrap: break-word; /* Empêche le débordement horizontal */
+    max-width: 100vw; /* Sécurité */
 }
 
 .home-buttons {
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .cta-button {
-    display: inline-block;
-    padding: 20px 60px;
-    background: #fff;
-    color: #000;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    border: 1px solid #fff;
-    transition: all 0.3s;
-    font-family: 'Audiowide', sans-serif;
-    cursor: pointer;
+    display: inline-block;
+    padding: 20px 60px;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border: 1px solid #fff;
+    transition: all 0.3s;
+    font-family: 'Audiowide', sans-serif;
+    cursor: pointer;
 }
 
 .cta-button:hover, .cta-button:focus {
-    background: #000;
-    color: #fff;
-    outline: 2px solid #fff; /* Ajout pour accessibilité */
-    outline-offset: 2px;
+    background: #000;
+    color: #fff;
+    outline: 2px solid #fff; /* Ajout pour accessibilité */
+    outline-offset: 2px;
 }
 
 /* SECTIONS */
 .section {
-    padding: 100px 60px;
-    max-width: 1600px;
-    margin: 0 auto;
+    padding: 100px 60px;
+    max-width: 1600px;
+    margin: 0 auto;
 }
 
 .section-title {
-    font-size: 48px;
-    margin-bottom: 60px;
-    letter-spacing: 8px;
-    text-transform: uppercase;
-    font-weight: 400;
-    text-align: center;
-    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    margin-bottom: 60px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    font-weight: 400;
+    text-align: center;
+    font-family: 'Bebas Neue', sans-serif;
 }
 
 /* ASSO PAGE (Utilisé par index.html) */
 .asso-content {
-    max-width: 1000px;
-    margin: 0 auto;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .asso-text {
-    font-size: 16px;
-    line-height: 2;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 300;
-    margin-bottom: 40px;
+    font-size: 16px;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 300;
+    margin-bottom: 40px;
 }
 
 .asso-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: rgba(255, 255, 255, 0.1);
-    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-top: 60px;
 }
 
 .asso-card {
-    background: #000;
-    padding: 50px;
+    background: #000;
+    padding: 50px;
 }
 
 .asso-card h3 {
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    font-family: 'Audiowide', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-family: 'Audiowide', sans-serif;
 }
 
 .asso-card p {
-    font-size: 14px;
-    line-height: 2;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 300;
+    font-size: 14px;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 300;
 }
 
 /* CONTACT FORM (Utilisé par index.html) */
 .contact-content {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .form-group label {
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-weight: 500;
-    font-family: 'Audiowide', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-family: 'Audiowide', sans-serif;
 }
 
 .form-group input,
 .form-group textarea {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
-    padding: 15px;
-    font-size: 14px;
-    font-family: inherit;
-    transition: border-color 0.3s;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 15px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.3s;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
-    outline: none;
-    border-color: rgba(255, 255, 255, 0.5);
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .form-group textarea {
-    min-height: 200px;
-    resize: vertical;
+    min-height: 200px;
+    resize: vertical;
 }
 
 .submit-button {
-    padding: 20px 60px;
-    background: #fff;
-    color: #000;
-    border: 1px solid #fff;
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    cursor: pointer;
-    transition: all 0.3s;
-    align-self: flex-start;
+    padding: 20px 60px;
+    background: #fff;
+    color: #000;
+    border: 1px solid #fff;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+    align-self: flex-start;
 }
 
 .submit-button:hover, .submit-button:focus {
-    background: #000;
-    color: #fff;
-    outline: 2px solid #fff; /* Ajout pour accessibilité */
-    outline-offset: 2px;
+    background: #000;
+    color: #fff;
+    outline: 2px solid #fff; /* Ajout pour accessibilité */
+    outline-offset: 2px;
 }
 
 /* FOOTER (Utilisé par les deux pages) */
 footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: 80px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 80px;
 }
 
 .dev-credit {
-    text-align: center;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.4);
-    letter-spacing: 1px;
-    font-weight: 300;
-    padding: 40px 20px 20px;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+    font-weight: 300;
+    padding: 40px 20px 20px;
 }
 
 .footer-social {
-    text-align: center;
-    padding: 30px 60px 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    flex-wrap: wrap;
+    text-align: center;
+    padding: 30px 60px 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
 }
 
 .social-button {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 30px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: all 0.3s;
-    font-family: 'Audiowide', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 30px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    font-family: 'Audiowide', sans-serif;
 }
 
 .social-button:hover, .social-button:focus {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.4);
-    transform: translateY(-2px);
-    outline: 1px solid rgba(255, 255, 255, 0.4); /* Ajout pour accessibilité */
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    outline: 1px solid rgba(255, 255, 255, 0.4); /* Ajout pour accessibilité */
 }
 
 .social-icon {
-    width: 20px;
-    height: 20px;
-    fill: #fff;
+    width: 20px;
+    height: 20px;
+    fill: #fff;
 }
 
 /* RESPONSIVE (Utilisé par les deux pages) */
 @media (max-width: 1024px) {
-    .asso-grid {
-        grid-template-columns: 1fr;
-    }
+    .asso-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
-    .home-hero h1 {
-        font-size: 60px;
-        letter-spacing: 10px;
-    }
-    
-    .header {
-        padding: 20px;
-        flex-direction: column;
-        gap: 20px;
-        /* La hauteur devient dynamique, le padding-top s'adapte via JS */
-    }
-    
-    .nav {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-    }
-    
-    .section {
-        padding: 60px 30px;
-    }
+    .home-hero h1 {
+        font-size: 60px;
+        letter-spacing: 10px;
+    }
+    
+    .header {
+        padding: 20px;
+        flex-direction: column;
+        gap: 20px;
+        /* La hauteur devient dynamique, le padding-top s'adapte via JS */
+    }
+    
+    .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .section {
+        padding: 60px 30px;
+    }
 
-    .home-buttons {
-        gap: 15px;
-    }
+    .home-buttons {
+        gap: 15px;
+    }
 
-    .cta-button {
-        padding: 15px 40px;
-        font-size: 11px;
-    }
+    .cta-button {
+        padding: 15px 40px;
+        font-size: 11px;
+    }
 
-    footer {
-        margin-top: 40px;
-    }
+    footer {
+        margin-top: 40px;
+    }
 
-    .footer-social {
-        padding: 30px 20px 40px;
-        gap: 15px;
-    }
+    .footer-social {
+        padding: 30px 20px 40px;
+        gap: 15px;
+    }
 
-    .social-button {
-        padding: 10px 20px;
-        font-size: 11px;
-        gap: 8px;
-    }
+    .social-button {
+        padding: 10px 20px;
+        font-size: 11px;
+        gap: 8px;
+    }
 
-    .social-icon {
-        width: 16px;
-        height: 16px;
-    }
+    .social-icon {
+        width: 16px;
+        height: 16px;
+    }
 
-    .dev-credit {
-        padding: 30px 20px 20px;
-    }
+    .dev-credit {
+        padding: 30px 20px 20px;
+    }
 }
 
 /*
 ============================================================
-   STYLES POUR LA PAGE FEST'ETE (festete-updated.html)
+   STYLES POUR LA PAGE FEST'ETE (festete-updated.html)
 ============================================================
 */
 
 /* --- Page d'accueil Fest'ETE (#home) --- */
 .home-hero h1 {
-    margin-bottom: 30px; /* Réduit l'espace après le titre */
+    margin-bottom: 30px; /* Réduit l'espace après le titre */
 }
 
 .home-hero-date {
-    font-size: 28px;
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 5px;
-    margin-bottom: 10px;
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 28px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .home-hero-location {
-    font-size: 16px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 50px; /* Espace avant le bouton */
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 50px; /* Espace avant le bouton */
 }
 
 /* --- Programmation (#prog) --- */
 .dj-grid {
-    display: grid;
-    /* Crée des colonnes responsives qui font au moins 320px */
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 25px;
+    display: grid;
+    /* Crée des colonnes responsives qui font au moins 320px */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
 }
 
 .dj-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-top: 2px solid rgba(255, 255, 255, 0.3);
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
 }
 
 .dj-card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .dj-name {
-    font-family: 'Audiowide', sans-serif;
-    font-size: 26px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    color: #fff;
+    font-family: 'Audiowide', sans-serif;
+    font-size: 26px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: #fff;
 }
 
 .dj-genre {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
 }
 
 .dj-time {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 25px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 25px;
 }
 
 .dj-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: auto; /* Pousse les liens en bas de la carte */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: auto; /* Pousse les liens en bas de la carte */
 }
 
 .dj-button {
-    display: inline-block;
-    padding: 8px 15px;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    text-decoration: none;
-    transition: all 0.3s ease;
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 .dj-button:hover, .dj-button:focus {
-    background: #fff;
-    color: #000;
+    background: #fff;
+    color: #000;
 }
 
 /* --- Actualités (#actu) --- */
 .news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
 }
 
 .news-card {
-    display: block;
-    text-decoration: none;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 30px;
-    transition: all 0.3s ease;
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    transition: all 0.3s ease;
 }
 
 .news-card:hover, .news-card:focus {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-5px);
-    outline: none;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-5px);
+    outline: none;
 }
 
 .news-card:focus {
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
 .news-date {
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 10px;
 }
 
 .news-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
-    letter-spacing: 2px;
-    font-weight: 400;
-    margin-bottom: 15px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    font-weight: 400;
+    margin-bottom: 15px;
 }
 
 .news-excerpt {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.8);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 /* --- Pages Articles (#article1, etc.) --- */
 .article-content {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .back-button {
-    display: inline-block;
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 300;
-    margin-bottom: 40px;
-    transition: color 0.3s ease;
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 40px;
+    transition: color 0.3s ease;
 }
 
 .back-button:hover, .back-button:focus {
-    color: #fff;
-    text-decoration: underline;
+    color: #fff;
+    text-decoration: underline;
 }
 
 .article-header {
-    margin-bottom: 40px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 30px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 30px;
 }
 
 .article-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 48px;
-    letter-spacing: 4px;
-    font-weight: 400;
-    margin-bottom: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 4px;
+    font-weight: 400;
+    margin-bottom: 10px;
 }
 
 .article-date {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .article-body p {
-    font-size: 16px;
-    line-height: 1.8;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 25px;
+    font-size: 16px;
+    line-height: 1.8;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 25px;
 }
 
 /* --- Billetterie (#billetterie) --- */
 .ticket-section {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .ticket-info {
-    font-size: 16px;
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 50px;
+    font-size: 16px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 50px;
 }
 
 .ticket-info p {
-    margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .ticket-cta {
-    display: inline-block;
-    padding: 25px 70px;
-    background: #fff;
-    color: #000;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    border: 1px solid #fff;
-    transition: all 0.3s;
-    font-family: 'Audiowide', sans-serif;
-    cursor: pointer;
+    display: inline-block;
+    padding: 25px 70px;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border: 1px solid #fff;
+    transition: all 0.3s;
+    font-family: 'Audiowide', sans-serif;
+    cursor: pointer;
 }
 
 .ticket-cta:hover, .ticket-cta:focus {
-    background: #000;
-    color: #fff;
-    outline: 2px solid #fff;
-    outline-offset: 4px;
+    background: #000;
+    color: #fff;
+    outline: 2px solid #fff;
+    outline-offset: 4px;
 }
 
 /* --- Galeries (Fest'ETE V1, V2, V3) --- */
 .festival-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 15px;
-    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+    margin-top: 60px;
 }
 
 .gallery-item {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    aspect-ratio: 4 / 3; /* Format 4:3 pour les images */
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    aspect-ratio: 4 / 3; /* Format 4:3 pour les images */
 }
 
 .gallery-item img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Remplit le conteneur sans déformer */
-    transition: transform 0.4s ease;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Remplit le conteneur sans déformer */
+    transition: transform 0.4s ease;
 }
 
 .gallery-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    color: #fff;
-    padding: 15px;
-    font-size: 12px;
-    font-weight: 300;
-    letter-spacing: 1px;
-    text-align: center;
-    opacity: 0;
-    transform: translateY(100%);
-    transition: all 0.4s ease;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    color: #fff;
+    padding: 15px;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.4s ease;
 }
 
 .gallery-item:hover img,
 .gallery-item:focus img {
-    transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .gallery-item:hover .gallery-caption,
 .gallery-item:focus .gallery-caption,
 .gallery-item:focus-within .gallery-caption {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .gallery-item:focus,
 .gallery-item:focus-within {
-     outline: 2px solid #fff;
-     outline-offset: -2px;
+     outline: 2px solid #fff;
+     outline-offset: -2px;
 }
 
 
 /* --- Classements (Ladders) --- */
 .ranking-description {
-    max-width: 600px;
-    margin: 0 auto 50px auto;
-    text-align: center;
-    font-size: 15px;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.7);
+    max-width: 600px;
+    margin: 0 auto 50px auto;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .ranking-table {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    max-width: 900px;
-    margin: 0 auto;
-    overflow: hidden; /* Pour les coins arrondis si on en ajoute */
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 900px;
+    margin: 0 auto;
+    overflow: hidden; /* Pour les coins arrondis si on en ajoute */
 }
 
 .ranking-row {
-    display: flex;
-    align-items: center;
-    background: #050505;
-    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    background: #050505;
+    padding: 18px 25px;
 }
 
 .ranking-row.header {
-    background: rgba(255, 255, 255, 0.05);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.05);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .ranking-position {
-    flex-basis: 80px; /* Largeur fixe pour le rang */
-    flex-shrink: 0;
-    font-size: 18px;
-    font-weight: 600;
+    flex-basis: 80px; /* Largeur fixe pour le rang */
+    flex-shrink: 0;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .ranking-name {
-    flex: 1; /* Prend le reste de la place */
-    font-size: 16px;
-    font-weight: 500;
-    display: flex; /* Pour les badges légendes */
-    flex-direction: column;
-    gap: 4px;
-    line-height: 1.2;
+    flex: 1; /* Prend le reste de la place */
+    font-size: 16px;
+    font-weight: 500;
+    display: flex; /* Pour les badges légendes */
+    flex-direction: column;
+    gap: 4px;
+    line-height: 1.2;
 }
 
 .ranking-score {
-    flex-basis: 120px; /* Largeur fixe pour le score */
-    flex-shrink: 0;
-    text-align: right;
-    font-size: 16px;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.8);
-    font-family: 'Audiowide', sans-serif; /* Style plus "numérique" */
+    flex-basis: 120px; /* Largeur fixe pour le score */
+    flex-shrink: 0;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'Audiowide', sans-serif; /* Style plus "numérique" */
 }
 
 /* Médailles */
@@ -776,151 +785,141 @@ footer {
 
 /* Badges Légendes */
 .legend-badge {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 11px;
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    align-self: flex-start; /* Ne prend pas toute la largeur */
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: flex-start; /* Ne prend pas toute la largeur */
 }
 /* Ajustement pour les noms de légendes */
 #ladder-legendes .ranking-name {
-    font-size: 18px;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
 }
 #ladder-legendes .ranking-score {
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
 }
 
 /* --- Responsive pour les tableaux de classement --- */
 @media (max-width: 600px) {
-    .ranking-row {
-        padding: 15px;
-    }
-    .ranking-position {
-        flex-basis: 50px;
-        font-size: 16px;
-    }
-    .ranking-name {
-        font-size: 14px;
-    }
-    .ranking-score {
-        flex-basis: 80px;
-        font-size: 14px;
-    }
-    #ladder-legendes .ranking-name {
-        font-size: 15px;
-    }
+    .ranking-row {
+        padding: 15px;
+    }
+    .ranking-position {
+        flex-basis: 50px;
+        font-size: 16px;
+    }
+    .ranking-name {
+        font-size: 14px;
+    }
+    .ranking-score {
+        flex-basis: 80px;
+        font-size: 14px;
+    }
+    #ladder-legendes .ranking-name {
+        font-size: 15px;
+    }
 }
 /* --- STYLES MENU DÉROULANT (corrigé) --- */
 
 .nav-item {
-  position: relative;
-  display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 /* --- CORRECTION HOVER --- */
 /* Le menu reste visible tant que la souris survole le conteneur parent .nav-item.
-   Ceci crée une "zone de contact" ininterrompue. */
+   Ceci crée une "zone de contact" ininterrompue. */
 /* Fix rapide dropdown : affichage au survol */
 .nav-item:hover .dropdown,
 .nav-item:focus-within .dropdown {
-  display: block;
+  display: block;
 }
 /* --- FIN CORRECTION HOVER --- */
 
 
 /* Bouton déclencheur (style aligné sur .nav a) */
 .nav-dropdown-trigger {
-  background: transparent;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  
-  /* Styles alignés sur .nav a */
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 23px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-weight: 400;
-  padding: 0;
-  
-  /* S'assure qu'il ressemble bien à un lien */
-  display: inline-block;
-  line-height: inherit; /* hérite de la nav */
-  transition: opacity 0.3s;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  
+  /* Styles alignés sur .nav a */
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 23px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 400;
+  padding: 0;
+  
+  /* S'assure qu'il ressemble bien à un lien */
+  display: inline-block;
+  line-height: inherit; /* hérite de la nav */
+  transition: opacity 0.3s;
 }
 
 /* Ajout du hover/focus pour le bouton, identique à .nav a */
-.nav-dropdown-trigger:hover, 
+.nav-dropdown-trigger:hover, 
 .nav-dropdown-trigger:focus {
-  opacity: 0.6;
-  outline: 2px solid rgba(255, 255, 255, 0.5);
-  outline-offset: 4px;
+  opacity: 0.6;
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 4px;
 }
 
 /* Le menu déroulant */
 .dropdown {
-  display: none; /* Caché par défaut, géré par JS/CSS:hover */
-  position: absolute;
-  top: 100%; 
-  left: 0;
-  background: #0a0a0a;
-  border: 1px solid rgba(255,255,255,0.06);
-  padding: 6px 0;
-  min-width: 220px;
-  z-index: 9999; /* Doit être au-dessus de tout */
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  display: none; /* Caché par défaut, géré par JS/CSS:hover */
+  position: absolute;
+  top: 100%; 
+  left: 0;
+  background: #0a0a0a;
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 6px 0;
+  min-width: 220px;
+  z-index: 99999; /* Doit être au-dessus de tout */
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
 }
 
 /* Liens dans le menu */
 .dropdown a {
-  display: block;
-  padding: 8px 16px;
-  color: #fff;
-  text-decoration: none;
-  font-family: 'Bebas Neue', sans-serif; /* Consistance */
-  font-size: 16px; /* Taille lisible pour sous-menu */
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 400;
+  display: block;
+  padding: 8px 16px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Bebas Neue', sans-serif; /* Consistance */
+  font-size: 16px; /* Taille lisible pour sous-menu */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
 }
 
 .dropdown a:hover,
 .dropdown a:focus {
-  background: rgba(255,255,255,0.03);
-  opacity: 1; /* S'assurer que le hover du lien est prioritaire */
-  outline: none;
+  background: rgba(255,255,255,0.03);
+  opacity: 1; /* S'assurer que le hover du lien est prioritaire */
+  outline: none;
 }
 
 /* Classe ajoutée par JS pour afficher le menu */
 .dropdown.active {
-  display: block !important; /* Mise à jour: Ajout de !important pour assurer la priorité */
-}
-/*
- * Correction pour les pages à cause du header en position: fixed.
- * La variable --header-height est calculée par le script.js
- */
-.page {
-    /* Empêche le contenu de se masquer derrière le header fixe */
-    padding-top: var(--header-height); 
-    /* S'assurer que chaque page remplisse au moins le reste de l'écran */
-    min-height: calc(100vh - var(--header-height));
-    /* Réinitialise le décalage potentiel des éléments ancrés */
-    scroll-margin-top: var(--header-height); 
+  display: block !important; /* Mise à jour: Ajout de !important pour assurer la priorité */
 }
 
-/* Assurez-vous que le header est bien fixé et au-dessus de tout */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
+/* --- MODIFICATION 3 : Réactivation des clics sur les éléments interactifs des pages --- */
+/* Nécessaire car .page a pointer-events: none */
+.page a,
+.page button,
+.page .cta-button,
+.page .ticket-cta,
+.page .submit-button,
+.page .social-button {
+    pointer-events: auto; 
 }
