@@ -1,5 +1,4 @@
- <style>
-        :root {
+         :root {
             /* Variable pour la hauteur du header, gérée par JS */
             --header-height: 150px; 
         }
@@ -397,4 +396,3 @@
                 padding: 30px 20px 20px;
             }
         }
-    </style>
