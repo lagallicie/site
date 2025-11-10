@@ -893,3 +893,91 @@ footer {
 .dropdown.active {
   display: block;
 }
+/* --- LADDER PAGES (CLASSEMENTS) --- */
+
+.ranking-description {
+    max-width: 800px;
+    margin: 0 auto 50px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.ranking-table {
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #0a0a0a;
+    padding: 0 30px; /* Ajouter un padding pour que le contenu ne touche pas les bords */
+}
+
+/* Structure de la ligne : Utilise Grid pour aligner les 3 colonnes */
+.ranking-row {
+    display: grid;
+    /* Définit 3 colonnes : Rang (étroit), Nom (prend le reste), Score (étroit) */
+    grid-template-columns: 80px 1fr 120px; 
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    align-items: center;
+}
+
+/* Correction du positionnement de l'en-tête du tableau */
+.ranking-row.header {
+    /* Ceci est la CORRECTION : annule le 'position: fixed' hérité du .header principal */
+    position: relative;
+    top: auto; 
+    
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-top: 25px;
+    padding-bottom: 25px; /* Plus d'espace sous l'en-tête */
+}
+
+/* Alignement du contenu des colonnes */
+.ranking-position {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.ranking-score {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.ranking-name {
+    text-align: left;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+/* Styles pour les badges de légende (pour l'autre tableau) */
+.legend-badge {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left: 10px;
+    border-radius: 3px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+
+/* Styles des médailles */
+.gold { color: gold; }
+.silver { color: silver; }
+.bronze { color: #cd7f32; }
+
+/* Dernier élément sans bordure */
+.ranking-table .ranking-row:last-of-type {
+    border-bottom: none;
+}
