@@ -66,6 +66,12 @@
         // Quand l'ancre dans l'URL change (clic sur un lien)
         window.addEventListener('hashchange', router);
 
+       // NOUVEAU : Au chargement COMPLET de la fenêtre (plus lent, plus fiable)
+       window.addEventListener('load', () => {
+            router();
+            updatePagePadding(); 
+});
+
         // Utiliser ResizeObserver pour détecter les changements de taille du header
         // (plus fiable que l'événement 'resize')
         if ('ResizeObserver' in window) {
