@@ -63,8 +63,7 @@
     if (!isActive) dropdownEl.classList.add('active');
   }
 
-  // Exposer globalement (utile si tu as des onclick inline dans le HTML)
-  // Utilisation de window.functionName = ... pour l'exposer
+  // Exposer globalement (pour la fonction de toggle)
   window.toggleDropdown = toggleDropdown; 
 
   // Initialisation DOM
@@ -76,17 +75,35 @@
     router();
     updatePagePadding();
 
-    // Attacher listeners aux triggers (préférable aux onclick inline)
-    document.querySelectorAll('.nav-dropdown-trigger').forEach(button => {
-      button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const navItem = button.closest('.nav-item');
-        if (!navItem) return;
-        const dropdown = navItem.querySelector('.dropdown');
-        if (!dropdown) return;
-        // appeler la fonction avec l'élément
-        toggleDropdown(dropdown);
+    // **********************************************
+    // NOUVELLE LOGIQUE : GESTION DES DROPDOWNS AU SURVOL (HOVER)
+    // **********************************************
+    document.querySelectorAll('.nav-item').forEach(navItem => {
+      const dropdown = navItem.querySelector('.dropdown');
+      const button = navItem.querySelector('.nav-dropdown-trigger');
+      
+      if (!dropdown) return;
+
+      // 1. OUVRIR au survol (mouseenter) sur le conteneur complet (.nav-item)
+      navItem.addEventListener('mouseenter', function () {
+        // Ferme les autres dropdowns avant d'ouvrir celui-ci
+        allDropdowns.filter(d => d !== dropdown).forEach(d => d.classList.remove('active'));
+        dropdown.classList.add('active');
       });
+
+      // 2. FERMER lorsque la souris quitte le conteneur complet (.nav-item)
+      navItem.addEventListener('mouseleave', function () {
+        dropdown.classList.remove('active');
+      });
+      
+      // 3. Garder la fonction de toggle au clic/touch (pour l'accessibilité/mobile)
+      if (button) {
+          button.addEventListener('click', function (e) {
+              e.preventDefault();
+              // Utilise l'ancienne fonction toggle pour le mode clic/touch
+              toggleDropdown(dropdown); 
+          });
+      }
     });
 
     // Fermer les dropdowns en cliquant à l'extérieur
