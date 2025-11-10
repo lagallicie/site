@@ -828,8 +828,10 @@ footer {
 /* --- CORRECTION HOVER --- */
 /* Le menu reste visible tant que la souris survole le conteneur parent .nav-item.
    Ceci crée une "zone de contact" ininterrompue. */
-.nav-item:hover .dropdown {
-    display: block !important; 
+/* Fix rapide dropdown : affichage au survol */
+.nav-item:hover .dropdown,
+.nav-item:focus-within .dropdown {
+  display: block;
 }
 /* --- FIN CORRECTION HOVER --- */
 
