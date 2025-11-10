@@ -1,6 +1,3 @@
-// js/script.js — version robuste (sans balises <script>)
-// Remplace entièrement le fichier js/script.js par ce contenu.
-
 (function () {
   'use strict';
 
@@ -67,19 +64,14 @@
   }
 
   // Exposer globalement (utile si tu as des onclick inline dans le HTML)
-  window.toggleDropdown = toggleDropdown;
-  function toggleDropdown(target) {
-  console.log('toggleDropdown called with', target);
-    }
+  // Utilisation de window.functionName = ... pour l'exposer
+  window.toggleDropdown = toggleDropdown; 
 
   // Initialisation DOM
   document.addEventListener('DOMContentLoaded', () => {
     allPages = Array.from(document.querySelectorAll('.page'));
     allDropdowns = Array.from(document.querySelectorAll('.dropdown'));
     header = document.querySelector('.header');
-
-    // Si HTML utilise nav-center au lieu de nav, on peut normaliser (optionnel)
-    // const nav = document.querySelector('.nav') || document.querySelector('.nav-center');
 
     router();
     updatePagePadding();
@@ -109,7 +101,9 @@
     });
   });
 
+  // Le routeur est déclenché par le changement de hash dans l'URL.
   window.addEventListener('hashchange', router);
+  
   window.addEventListener('load', () => {
     // Recalcule après que tout ait chargé
     updatePagePadding();
