@@ -68,6 +68,9 @@
 
   // Exposer globalement (utile si tu as des onclick inline dans le HTML)
   window.toggleDropdown = toggleDropdown;
+  function toggleDropdown(target) {
+  console.log('toggleDropdown called with', target);
+    }
 
   // Initialisation DOM
   document.addEventListener('DOMContentLoaded', () => {
