@@ -462,7 +462,7 @@ footer {
 /* --- Programmation (#prog) --- */
 .dj-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 25px;
 }
 
@@ -535,7 +535,7 @@ footer {
 /* --- Actualités (#actu) --- */
 .news-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 25px;
 }
 
@@ -829,6 +829,15 @@ footer {
 #ladder-legendes .ranking-score {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
+}
+
+.subsection-title {
+    font-size: 24px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 20px;
 }
 
 /* --- Responsive pour les tableaux de classement --- */
