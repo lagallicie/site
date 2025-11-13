@@ -49,10 +49,13 @@ body {
     width: auto;
 }
 
+/* style.css */
 .nav {
     display: flex;
     gap: 40px;
     align-items: center;
+    /* NOUVEAU : Empêche les boutons de passer à la ligne */
+    flex-wrap: nowrap; /* */ 
 }
 
 .nav a {
@@ -460,10 +463,15 @@ footer {
 }
 
 /* --- Programmation (#prog) --- */
+/* style.css */
+/* --- Programmation (#prog) --- */
 .dj-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* MODIFICATION : Remplacer 1fr par 300px pour des colonnes de taille fixe */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 300px)); /* */
     gap: 25px;
+    /* NOUVEAU : Centrer l'ensemble de la grille (utile car les colonnes ne prennent plus 100% de l'espace) */
+    justify-content: center;
 }
 
 .dj-card {
@@ -535,8 +543,11 @@ footer {
 /* --- Actualités (#actu) --- */
 .news-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
+    /* MODIFICATION : Remplacer 1fr par 350px pour des colonnes de taille fixe */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 350px)); /* */
+    gap: 30px;
+    /* NOUVEAU : Centrer l'ensemble de la grille */
+    justify-content: center;
 }
 
 .news-card {
@@ -862,11 +873,15 @@ footer {
 }
 /* --- STYLES MENU DÉROULANT --- */
 
+/* style.css */
+/* Item conteneur du bouton et du dropdown */
 .nav-item {
     position: relative;
-    display: inline-block;
+    /* MODIFICATION : Remplacer inline-block pour un meilleur alignement vertical */
+    display: flex; /* */
+    align-items: center; /* Centrer le contenu (le bouton) dans le nav-item */
 }
-
+/* Le reste des styles pour .nav-dropdown-trigger et .dropdown reste inchangé */
 /* Affichage au survol */
 .nav-item:hover .dropdown,
 .nav-item:focus-within .dropdown {
